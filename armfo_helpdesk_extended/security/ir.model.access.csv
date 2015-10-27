@@ -1,0 +1,11 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_crm_helpdesk_user,crm.my.helpdesk.manager,crm_helpdesk.model_crm_helpdesk,group_helpdesk_user,1,1,1,1
+access_crm_case_action_user,crm.my.helpdesk.user,sale.model_crm_case_section,group_helpdesk_user,1,1,1,0
+access_project_issue_helpdesk_user,project.issue.my.helpdesk.user,project_issue.model_project_issue,group_helpdesk_user,1,1,1,0
+access_crm_claim_helpdesk_user,crm.claim.my.helpdesk.user,crm_claim.model_crm_claim,group_helpdesk_user,1,1,1,0
+access_account_move_line_user,account.move.line.my.helpdesk.user,account.model_account_move_line,group_helpdesk_user,1,1,1,0
+access_crm_phonecall_user,crm.phonecall.my.helpdesk.user,crm.model_crm_phonecall,group_helpdesk_user,1,1,1,0
+access_sale_order_user,sale.order.my.helpdesk.user,sale.model_sale_order,group_helpdesk_user,1,1,1,0
+access_account_invoice_user,account.invoice.my.helpdesk.user,account.model_account_invoice,group_helpdesk_user,1,1,1,0
+access_crm_lead_user,crm.lead.my.helpdesk.user,crm.model_crm_lead,group_helpdesk_user,1,1,1,0
+access_account_invoice_report_user,account.invoice.report.my.helpdesk.user,account.model_account_invoice_report,group_helpdesk_user,1,1,1,0

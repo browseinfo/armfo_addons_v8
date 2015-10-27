@@ -1,0 +1,363 @@
+<?xml version="1.0"?>
+<openerp>
+	<data>
+
+ ##########Extended form view of fetchmail #######################################
+
+        <record model="ir.ui.view" id="view_email_server_form_extended">
+            <field name="name">fetchmail.server.form.extended</field>
+            <field name="model">fetchmail.server</field>
+            <field name="inherit_id" ref="fetchmail.view_email_server_form" />
+            <field name="arch" type="xml">
+                <xpath expr="/form/sheet/notebook/page/group/field[@name='original']" position="after">
+                    <field name="email_sent_from"/>
+                </xpath>
+                <xpath expr="/form/sheet/notebook/page/group/field[@name='active']" position="after">
+                    <field name="email_reply_to"/>
+                </xpath>
+            </field>
+        </record>
+#################################################################################################
+
+		<record model="ir.actions.act_window" id="crm_pending_helpdesk_requests_id">
+			<field name="name">Pending Requests</field>
+			<field name="res_model">crm.helpdesk</field>
+			<field name="view_mode">tree,form</field>
+			<field name="domain">[('state','=','pending')]</field>
+			<field name="view_id" eval="False"/>
+			<field name="search_view_id" ref="crm_helpdesk.view_crm_case_helpdesk_filter"/>
+			<field name="help" type="html">
+				<p>
+					Odoo helps you keep track of your Helpdesk Requests to follow
+					up potential Requests and better forecast your future revenues.
+				</p>
+			</field>
+		</record>
+		<record model="ir.actions.act_window" id="crm_new_helpdesk_requests_id">
+			<field name="name">New Requests</field>
+			<field name="res_model">crm.helpdesk</field>
+			<field name="view_mode">tree,form</field>
+			<field name="domain">[('state','=', 'draft')]</field>
+			<field name="view_id" eval="False"/>
+			<field name="search_view_id" ref="crm_helpdesk.view_crm_case_helpdesk_filter"/>
+			<field name="help" type="html">
+				<p>
+					Odoo helps you keep track of your Helpdesk Requests to follow
+					up potential Requests and better forecast your future revenues.
+				</p>
+			</field>
+		</record>
+		<record model="ir.actions.act_window" id="crm_inprogress_helpdesk_requests_id">
+			<field name="name">In Progress Requests</field>
+			<field name="res_model">crm.helpdesk</field>
+			<field name="view_mode">tree,form</field>
+			<field name="domain">[('state', '=', 'open')]</field>
+			<field name="view_id" eval="False"/>
+			<field name="search_view_id" ref="crm_helpdesk.view_crm_case_helpdesk_filter"/>
+			<field name="help" type="html">
+				<p>
+					Odoo helps you keep track of your Helpdesk Requests to follow
+					up potential Requests and better forecast your future revenues.
+				</p>
+			</field>
+		</record>
+		<record model="ir.actions.act_window" id="crm_closed_helpdesk_requests_id">
+			<field name="name">Closed Requests</field>
+			<field name="res_model">crm.helpdesk</field>
+			<field name="view_mode">tree,form</field>
+			<field name="domain">[('state','=', 'done')]</field>
+			<field name="view_id" eval="False"/>
+			<field name="search_view_id" ref="crm_helpdesk.view_crm_case_helpdesk_filter"/>
+			<field name="help" type="html">
+				<p>
+					Odoo helps you keep track of your Helpdesk Requests to follow
+					up potential Requests and better forecast your future revenues.
+				</p>
+			</field>
+		</record>
+		<record model="ir.actions.act_window" id="crm_cancelled_helpdesk_requests_id">
+			<field name="name">Cancelled Requests</field>
+			<field name="res_model">crm.helpdesk</field>
+			<field name="view_mode">tree,form</field>
+			<field name="domain">[('state','=', 'cancel')]</field>
+			<field name="view_id" eval="False"/>
+			<field name="search_view_id" ref="crm_helpdesk.view_crm_case_helpdesk_filter"/>
+			<field name="help" type="html">
+				<p>
+					Odoo helps you keep track of your Helpdesk Requests to follow
+					up potential Requests and better forecast your future revenues.
+				</p>
+			</field>
+		</record>
+        <record id="action_helpdesk_to_account_moves_tree" model="ir.actions.act_window">
+            <field name="name">Journal Items</field>
+            <field name="res_model">account.move.line</field>
+            <field name="view_id" ref="account.view_move_line_tree"/>
+        </record>
+
+        <record id="act_open_partner_analytic_accounts" model="ir.actions.act_window">
+            <field name="name">Contracts/Analytic Accounts</field>
+            <field name="res_model">account.analytic.account</field>
+            <field name="view_id" ref="account.view_account_analytic_account_tree"/>
+            <field name="search_view_id" ref="account.view_account_analytic_account_search"/>
+        </record>
+
+        <record id="act_helpdesk_2_sale_order" model="ir.actions.act_window">
+            <field name="name">Quotations and Sales</field>
+            <field name="res_model">sale.order</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form,graph</field>
+        </record>
+
+        <record id="act_helpdesk_2_project_issue_all" model="ir.actions.act_window">
+            <field name="res_model">project.issue</field>
+            <field name="view_type">form</field>
+            <field name="name">Issues</field>
+            <field name="view_mode">kanban,tree,form,calendar,graph</field>
+        </record>
+################### Views for the 'ADD Followers' ##############################'
+        <record model="ir.ui.view" id="view_email_server_add_follower_form_extended">
+            <field name="name">server.add.folower.form.extended</field>
+            <field name="model">mail.wizard.invite</field>
+            <field name="inherit_id" ref="mail.mail_wizard_invite_form" />
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='send_mail']" position="replace">
+					<field name="send_mail" invisible="1"/>
+                    <field name="history_mail" on_change="onchange_bool(history_mail)"/>
+                    <field name="invitation_mail" on_change="onchange_bool(invitation_mail)"/>
+                </xpath>
+                <xpath expr="/form/group/field[@name='message']" position="replace">
+                    <field name="message" attrs="{'invisible': [('invitation_mail', '!=', True)]}"/>
+                </xpath>
+            </field>
+        </record>
+
+#########################################################################################'
+
+################### Views for the 'CRM HELPDESK EMAILS' ##############################'
+<!-- 
+        <record id="crm_helpdesk_mails_form" model="ir.ui.view">
+                <form string="Helpdesk Emails">
+                    <group col="4">
+                        <field name="sent_from" widget="email"/>
+                        <field name="reply_to" widget="email"/>
+                        <field name="model_id"/>
+                    </group>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="crm_helpdesk_mails_tree_view">
+            <field name="name">crm.helpdesk.emails.tree</field>
+            <field name="model">crm.helpdesk.emails</field>
+            <field name="arch" type="xml">
+                <tree string="Helpdesk Emails">
+                    <field name="model_id"/>
+                    <field name="sent_from"/>
+                    <field name="reply_to"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="crm_helpdesk_emails_action" model="ir.actions.act_window">
+            <field name="name">Helpdesk</field>
+            <field name="res_model">crm.helpdesk.emails</field>
+            <field name="view_type">form</field>
+            <field name="view_id" ref="crm_helpdesk_mails_tree_view"/>
+        </record>
+
+        <menuitem id="menu_helpdesk_emails" parent="base.menu_config"
+            sequence="3" action="crm_helpdesk_emails_action"/> -->
+
+
+<!--################################################################################################-->
+<!---->
+<!--########################Extended form view of fetchmail #######################################-->
+<!---->
+<!--		<record model="ir.ui.view" id="view_email_server_form_extended">-->
+<!--			<field name="name">fetchmail.server.form.extended</field>-->
+<!--			<field name="model">fetchmail.server</field>-->
+<!--			<field name="inherit_id" ref="fetchmail.view_email_server_form" />-->
+<!--			<field name="arch" type="xml">-->
+<!--				<xpath expr="/form/sheet/notebook/page/group/field[@name='original']" position="after">-->
+<!--					<field name="email_sent_from"/>-->
+<!--				</xpath>-->
+<!--				<xpath expr="/form/sheet/notebook/page/group/field[@name='active']" position="after">-->
+<!--					<field name="email_reply_to"/>-->
+<!--				</xpath>-->
+<!--			</field>-->
+<!--		</record>-->
+<!--#################################################################################################-->
+<!---->
+<!--########################### MY HELPDESK ACTION AND MENUITEM ###################################-->
+
+        <record id="crm_my_helpdesk_action" model="ir.actions.act_window">
+            <field name="name">My Helpdesk</field>
+            <field name="res_model">crm.helpdesk</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form,calendar</field>
+            <field name="view_id" ref="crm_helpdesk.crm_case_tree_view_helpdesk"/>
+            <field name="search_view_id" ref="crm_helpdesk.view_crm_case_helpdesk_filter"/>
+            <field name="domain">['|', ('user_id','=', uid), '|', ('section_id.user_id','=',uid), ('section_id.member_ids', 'in', [uid])]</field>
+        </record>
+
+
+        <menuitem id="menu_my_helpdesk" parent="base.menu_aftersale" name="My Helpdesk"
+            sequence="3" action="crm_my_helpdesk_action"/>
+
+################################################################################################
+
+########################CLAIMS BUTTON REPLACED BY HELPDESK IN PARTNER FORM VIEW #############
+
+        <record model="ir.actions.act_window" id="crm_case_categ_helpdesk">
+            <field name="name">Helpdesks</field>
+            <field name="res_model">crm.helpdesk</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,calendar,form</field>
+            <field name="view_id" ref="crm_helpdesk.crm_case_tree_view_helpdesk"/>
+            <field name="search_view_id" ref="crm_helpdesk.view_crm_case_helpdesk_filter"/>
+        </record>
+
+
+		<record id="view_helpdesk_res_partner_form" model="ir.ui.view">
+            <field name="name">res.partner.form.extended</field>
+            <field name="model">res.partner</field>
+			<field name="inherit_id" ref="crm_claim.view_claim_res_partner_info_form" />
+            <field name="arch" type="xml">
+                <xpath expr="//button[@icon='fa-comments']" position="replace">
+                    <button class="oe_inline oe_stat_button" type="action"
+                        context="{'search_default_partner_id': active_id, 'default_partner_id': active_id}"
+                        name="%(crm_case_categ_helpdesk)d" icon="fa-comments">
+                        <field string="Helpdesk" name="helpdesk_count" widget="statinfo"/>
+                    </button>
+                </xpath>
+
+				<!--xpath expr="//field[@name='title']" position="after">
+   					<field name="check_functional_field"/>
+				</xpath-->
+
+            </field>
+		</record>
+
+
+###################### BUTTONS IN CRM HELPDESK FORM VIEW #################
+
+		<record id="crm_helpdesk_view_extend" model="ir.ui.view">
+            <field name="name">crm.helpdesk.view.extend</field>
+            <field name="model">crm.helpdesk</field>
+			<field name="inherit_id" ref="crm_helpdesk.crm_case_form_view_helpdesk" />
+            <field name="arch" type="xml">
+                <xpath expr="/form/sheet/notebook/page/group/group/field[@name='partner_id']" position="after">
+                    <field name="email_sent_from"/>
+                </xpath>
+                <xpath expr="/form/sheet/notebook/page/group/group/field[@name='partner_id']" position="after">
+                    <field name="email_reply_to"/>
+                </xpath>
+                <xpath expr="/form/sheet/notebook/page/group/group/field[@name='email_from']" position="after">
+                    <field name="partner_from_replyto"/>
+                </xpath>
+                
+				<xpath expr="/form/sheet/group/field[@name='section_id']" position="replace">
+					<field name="section_id" widget="selection"/>
+				</xpath>
+				<xpath expr="/form/sheet/notebook/page/separator[@string='Notes']" position="before">
+					<div class="oe_button_box" name="buttons_part"> </div>
+				</xpath>
+				<xpath expr="/form/sheet/notebook/page/separator[@string='Notes']" position="before">
+					<group col="4" colspan="4">
+						<div  name="buttons_stage"> </div>
+					</group>
+				</xpath>
+
+                <xpath expr="//div[@name='buttons_stage']" position="inside">
+					<button type="action" class="oe_stat_button" name="%(crm_helpdesk_extended.crm_new_helpdesk_requests_id)d" context="{'default_partner_id': [partner_id],'search_default_partner_id': [partner_id]}">
+						<img src="/crm_helpdesk_extended/static/src/img/new.png" style="width:30px; height:30px; margin-left: 5px; margin-right: 5px;" class="pull-left"/>
+						<field name="new_req_count" widget="statinfo"/>
+					</button>
+					<button type="action" class="oe_stat_button" name="%(crm_helpdesk_extended.crm_inprogress_helpdesk_requests_id)d" context="{'default_partner_id': [partner_id],'search_default_partner_id': [partner_id]}">
+						<img src="/crm_helpdesk_extended/static/src/img/inprogress.png" style="width:30px; height:30px; margin-left: 5px; margin-right: 5px;" class="pull-left"/>
+						<field name="in_prog_req_count" widget="statinfo"/>
+					</button>
+                    <button type="action" class="oe_stat_button" name="%(crm_helpdesk_extended.crm_pending_helpdesk_requests_id)d" context="{'default_partner_id': [partner_id],'search_default_partner_id': [partner_id]}">
+						<img src="/crm_helpdesk_extended/static/src/img/pending.png" style="width:30px; height:30px; margin-left: 5px; margin-right: 5px;" class="pull-left"/>
+						<field name="pend_req_count" widget="statinfo"/>
+					</button>
+                    <button type="action" class="oe_stat_button" name="%(crm_helpdesk_extended.crm_closed_helpdesk_requests_id)d" context="{'default_partner_id': [partner_id],'search_default_partner_id': [partner_id]}">
+						<img src="/crm_helpdesk_extended/static/src/img/closed.png" style="width:30px; height:30px; margin-left: 5px; margin-right: 5px;" class="pull-left"/>
+						<field name="close_req_count" widget="statinfo"/>
+					</button>
+                    <button type="action" class="oe_stat_button" name="%(crm_helpdesk_extended.crm_cancelled_helpdesk_requests_id)d" context="{'default_partner_id': [partner_id],'search_default_partner_id': [partner_id]}">
+						<img src="/crm_helpdesk_extended/static/src/img/cancelled.png" style="width:30px; height:30px; margin-left: 5px; margin-right: 5px;" class="pull-left"/>
+						<field name="canc_req_count" widget="statinfo"/>
+					</button>
+				</xpath>
+                <xpath expr="//div[@name='buttons_part']" position="inside">
+                    <button type="action" class="oe_stat_button" name="%(crm_helpdesk_extended.action_helpdesk_to_account_moves_tree)d" icon="fa-list" context="{'default_partner_id': [partner_id],'search_default_partner_id': [partner_id]}">
+                        <field string="Journal Items" name="journal_item_count" widget="statinfo"/>
+                    </button>
+                    <button type="action" class="oe_stat_button" name="%(crm_helpdesk_extended.act_open_partner_analytic_accounts)d" icon="fa-book" context="{'default_partner_id': [partner_id],'search_default_partner_id': [partner_id]}">
+						<field name="contracts_count" widget="statinfo"/>
+					</button>
+                    <button type="action" class="oe_stat_button" name="%(crm.crm_case_category_act_oppor11)d" icon="fa-star" context="{'default_partner_id': [partner_id],'search_default_partner_id': [partner_id]}">
+						<field name="opportunity_count" widget="statinfo"/>
+					</button>
+                    <button type="action" class="oe_stat_button" name="%(calendar.action_calendar_event)d" icon="fa-calendar" context="{'default_partner_ids': [partner_id],'search_default_partner_ids': [partner_id]}">
+						<field name="meeting_count" widget="statinfo"/>
+					</button>
+                    <button type="action" class="oe_stat_button" name="%(crm.crm_case_categ_phone_incoming0)d" icon="fa-phone" context="{'default_partner_id': [partner_id],'search_default_partner_id': [partner_id]}">
+						<field name="phonecall_count" widget="statinfo"/>
+					</button>
+                    <button type="action"
+                        class="oe_stat_button"
+                        id="invoice_button"
+                        icon="fa-pencil-square-o"
+                        name="%(account.action_invoice_tree)d"
+                        context="{'search_default_partner_id': partner_id,'default_partner_id': partner_id}">
+                        <div><strong><field name="total_invoiced" widget="monetary"/></strong><br/>Invoiced</div>
+                    </button>
+                    <button class="oe_inline oe_stat_button" type="action" name="%(crm_helpdesk_extended.act_helpdesk_2_sale_order)d"
+                        icon="fa-strikethrough" context="{'default_partner_id': [partner_id],'search_default_partner_id': [partner_id]}">
+                        <field string="Sales" name="sale_order_count" widget="statinfo"/>
+                    </button>
+                    <button class="oe_inline oe_stat_button" type="action"
+                        context="{'search_default_partner_id': partner_id, 'default_partner_id': partner_id}"
+                        name="%(crm_claim.crm_case_categ_claim0)d" icon="fa-comments">
+                        <field string="Claims" name="claim_count" widget="statinfo"/>
+                    </button>
+                    <button class="oe_inline oe_stat_button" type="action"
+                        name="%(crm_helpdesk_extended.act_helpdesk_2_project_issue_all)d" icon="fa-bug" context="{'default_partner_id': [partner_id],'search_default_partner_id': [partner_id]}">
+                        <field string="Issues" name="issue_count" widget="statinfo"/>
+                    </button>
+                    <button class="oe_inline oe_stat_button" type="action" name="%(project.action_view_task)d"
+                        context="{'search_default_partner_id': partner_id, 'default_partner_id': partner_id}"
+                        icon="fa-tasks">
+                        <field  string="Tasks" name="task_count" widget="statinfo"/>
+                    </button>
+                </xpath>
+			</field>
+		</record>
+
+        <menuitem name="Sales"
+            id="base.menu_base_partner"
+            groups="base.group_sale_salesman,base.group_sale_manager,crm_helpdesk_extended.group_helpdesk_user"/>
+
+        <menuitem id="base.menu_aftersale" name="After-Sale Services" sequence="2" parent="base.menu_base_partner"
+        groups="base.group_sale_salesman,base.group_sale_manager,crm_helpdesk_extended.group_helpdesk_user"/>
+
+        <menuitem id="sales_team.menu_sales_team_act" action="sales_team.crm_case_section_salesteams_act" sequence="1" parent="base.menu_sales" groups="base.group_sale_salesman,base.group_sale_manager,base.group_multi_salesteams"/>
+
+        <menuitem id="sale.menu_sale_quotations"
+                action="sale.action_quotations" parent="base.menu_sales"
+                sequence="5" groups="base.group_sale_salesman,base.group_sale_manager"/>
+
+		<menuitem name="Leads" id="crm.menu_crm_leads" parent="base.menu_sales" sequence="3"
+            action="crm.crm_case_category_act_leads_all" groups="base.group_sale_salesman,base.group_sale_manager"/>
+
+        <menuitem name="Claims" id="crm_claim.menu_crm_case_claims"
+            parent="base.menu_aftersale" action="crm_claim.crm_case_categ_claim0" sequence="1" groups="base.group_sale_salesman,base.group_sale_manager"/>
+
+        <menuitem id="base.menu_product" name="Products" parent="base.menu_base_partner" sequence="9" groups="base.group_sale_salesman,base.group_sale_manager"/>
+
+        <menuitem id="base.menu_partner_form" parent="base.menu_sales" action="base.action_partner_form" sequence="2" groups="base.group_sale_salesman,base.group_sale_manager"/>
+	</data>
+</openerp>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates>
+<t t-name="ViewManagerAction" t-extend="ViewManager">
+    <t t-jquery="tr.oe_header_row_top" t-operation="replace">
+        <tr class="oe_header_row oe_header_row_top">
+            <td colspan="4">
+                <h2 class="oe_view_title" t-if="widget.flags.display_title !== false">
+                    <span class="oe_view_title_text oe_breadcrumb_title"/>
+                </h2>
+            </td>
+            <td colspan="2">
+                <div class="oe_view_manager_view_search"/>
+            </td>
+        </tr>
+    </t>
+</t>
+</templates>
